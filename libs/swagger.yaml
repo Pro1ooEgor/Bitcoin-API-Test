@@ -1,0 +1,227 @@
+openapi: 3.0.3
+info:
+    title: Bitcoin Node API
+    description: Bitcoin Node Rest APIs documentation
+    version: 1.0.0
+servers:
+    - url: http://127.0.0.1:5000/api
+      description: API Server URL
+
+paths:
+    /users/:
+        post:
+            summary: user sign up
+            operationId: register
+            tags: [User]
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            required:
+                                - name
+                                - username
+                                - email
+                            properties:
+                                name:
+                                    type: string
+                                    example: Eran
+                                username:
+                                    type: string
+                                    example: eran123
+                                email:
+                                    type: string
+                                    example: eran@test.com
+            responses:
+                "200":
+                    description: OK
+                "400":
+                    description: Bad Request
+                "500":
+                    description: Server Error
+
+    /users/{id}:
+        get:
+            summary: retrieves a user object
+            operationId: getUser
+            tags: [User]
+            parameters:
+                - in: path
+                  name: id
+                  schema:
+                      type: string
+                  required: true
+                  description: ID of the user
+            responses:
+                "200":
+                    description: OK
+                "400":
+                    description: Bad Request
+                "500":
+                    description: Server Error
+        put:
+            summary: allows a user to change the name or the email 
+            operationId: putUser
+            tags: [User]
+            parameters:
+                - in: path
+                  name: id
+                  schema:
+                      type: string
+                  required: true
+                  description: ID of the user
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            required:
+                                - name
+                                - email
+                            properties:
+                                name:
+                                    type: string
+                                    example: Eran Updated
+                                email:
+                                    type: string
+                                    example: eranupdated@test.com
+            responses:
+                "200":
+                    description: OK
+                "400":
+                    description: Bad Request
+                "500":
+                    description: Server Error
+
+    /users/{userId}/usd:
+        post:
+            summary: Allows a user to deposit or withdraw us dollars
+            operationId: usdMoney
+            tags: [User]
+            parameters:
+                - in: path
+                  name: userId
+                  schema:
+                      type: string
+                  required: true
+                  description: ID of the user
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            required:
+                                - action
+                                - amount
+                            properties:
+                                action:
+                                    type: string
+                                    example: withdraw or deposite
+                                amount:
+                                    type: integer
+                                    example: 40.50
+            responses:
+                "200":
+                    description: OK
+                "400":
+                    description: Bad Request
+                "500":
+                    description: Server Error
+
+    /users/{userId}/bitcoins:
+        post:
+            summary: Allows a user to buy or sell bitcoins
+            operationId: bitcoinMoney
+            tags: [User]
+            parameters:
+                - in: path
+                  name: userId
+                  schema:
+                      type: string
+                  required: true
+                  description: ID of the user
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            required:
+                                - action
+                                - amount
+                            properties:
+                                action:
+                                    type: string
+                                    example: buy or sell
+                                amount:
+                                    type: integer
+                                    example: 0.05
+            responses:
+                "200":
+                    description: OK
+                "400":
+                    description: Bad Request
+                "500":
+                    description: Server Error
+    
+    /users/{userId}/balance:
+        get:
+            summary: Retrieves the total balance of the user in usd
+            operationId: balanceMoney
+            tags: [User]
+            parameters:
+                - in: path
+                  name: userId
+                  schema:
+                      type: string
+                  required: true
+                  description: ID of the user
+            responses:
+                "200":
+                    description: OK
+                "400":
+                    description: Bad Request
+                "500":
+                    description: Server Error
+
+    /bitcoin:
+        get:
+            summary: retrieves the current bitcoin object
+            operationId: getBitcoin
+            tags: [Bitcoin]
+            responses:
+                "200":
+                    description: OK
+                "400":
+                    description: Bad Request
+                "500":
+                    description: Server Error
+        put:
+            summary: updates the bitcoin price
+            operationId: putBitcoin
+            tags: [Bitcoin]
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            required:
+                                - price
+                            properties:
+                                price:
+                                    type: number
+                                    example: 101
+            responses:
+                "200":
+                    description: OK
+                "400":
+                    description: Bad Request
+                "500":
+                    description: Server Error
+
+    
+    
